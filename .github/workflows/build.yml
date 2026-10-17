@@ -17,6 +17,10 @@ on:
         required: true
   workflow_dispatch:
 
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,12 +51,13 @@ jobs:
           - rock-5bplus
           - rock-5t
           - station-m3
-        CONFIGURATION: ${{ fromJSON(format('[{0}]', inputs.build-configs || '"Debug"')) }}
+        CONFIGURATION: ${{ fromJSON(format('[{0}]', inputs.build-configs || '"Release"')) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          fetch-depth: 0
 
       - name: Install dependencies
         shell: bash
@@ -104,9 +109,21 @@ jobs:
           ./build.sh --device ${{matrix.PLATFORM}} --release ${{matrix.CONFIGURATION}} --edk2-flags "${EDK2_BUILD_FLAGS}"
           mv RK3588_NOR_FLASH.img ${{matrix.PLATFORM}}_UEFI_${{matrix.CONFIGURATION}}_${{steps.get_version_tag.outputs.version}}.img
 
+      - name: Upload build logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{matrix.PLATFORM}}-${{matrix.CONFIGURATION}}-build-logs
+          path: |
+            Build/**/*.log
+            Build/**/*LOG.txt
+          if-no-files-found: ignore
+          retention-days: 3
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{matrix.PLATFORM}} UEFI ${{matrix.CONFIGURATION}} image
+          name: ${{matrix.PLATFORM}}-UEFI-${{matrix.CONFIGURATION}}
           path: ./*.img
           if-no-files-found: error
+          retention-days: 7

@@ -19,10 +19,16 @@ jobs:
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v4
 
+      - name: Generate SHA256 checksums
+        shell: bash
+        run: find . -name '*.img' -exec sha256sum {} + > SHA256SUMS
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
           draft: true
           prerelease: false
-          files: "*/*Release*.img"
+          files: |
+            */*Release*.img
+            SHA256SUMS
           fail_on_unmatched_files: true
