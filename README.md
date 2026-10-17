@@ -38,8 +38,11 @@ Note that this list is subject to change at any time as devices gain better supp
 
 ## Bronze
 - [Radxa ROCK 5B+](https://radxa.com/products/rock5/5bp)
+- [Radxa ROCK 5C](https://radxa.com/products/rock5/5c)
 - [Radxa ROCK 5T](https://radxa.com/products/rock5/5t)
+- [Radxa CM5 (RPI CM4 IO)](https://radxa.com/products/cm5/)
 - [Orange Pi 5 Max](http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-5-Max.html)
+- [Orange Pi 5 Ultra](http://www.orangepi.org/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-5-Ultra.html)
 - [Fydetab Duo](https://fydetabduo.com/)
 - [Firefly AIO-3588Q](https://en.t-firefly.com/product/industry/aio3588q)
 - [Firefly ITX-3588J](https://en.t-firefly.com/product/industry/itx3588j)
