@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         PLATFORM:
@@ -51,10 +51,10 @@ jobs:
           - rock-5bplus
           - rock-5t
           - station-m3
-        CONFIGURATION: ${{ fromJSON(format('[{0}]', inputs.build-configs || '"Release"')) }}
+        CONFIGURATION: ${{ fromJSON(format('[{0}]', inputs.build-configs || '"Debug", "Release"')) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: recursive
           fetch-depth: 0
@@ -111,7 +111,7 @@ jobs:
 
       - name: Upload build logs
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{matrix.PLATFORM}}-${{matrix.CONFIGURATION}}-build-logs
           path: |
@@ -121,7 +121,7 @@ jobs:
           retention-days: 3
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{matrix.PLATFORM}}-UEFI-${{matrix.CONFIGURATION}}
           path: ./*.img

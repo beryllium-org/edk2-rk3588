@@ -11,13 +11,13 @@ jobs:
       build-configs: '"Debug", "Release"'
 
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build_for_release
     permissions:
       contents: write
     steps:
       - name: Download all workflow run artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
 
       - name: Generate SHA256 checksums
         shell: bash
